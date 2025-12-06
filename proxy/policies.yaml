@@ -1,0 +1,21 @@
+# Red Specter - AI Firewall Proxy v0.1
+# Simple policy configuration for the Python wrapper MVP.
+
+mode: "enforce"   # "enforce" or "monitor"
+
+deny_terms:
+  - "password"
+  - "api key"
+  - "access token"
+  - "private key"
+  - "internal_ip"
+  - "database connection string"
+
+warn_terms:
+  - "confidential"
+  - "internal use only"
+  - "sensitive"
+  - "proprietary"
+  - "secret"
+
+block_jailbreak_like: true
