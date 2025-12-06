@@ -1,8 +1,16 @@
-# 🛡️ Red Specter – AI Firewall Proxy
+ # 🛡️ Red Specter – AI Firewall Proxy
+
+![License](https://img.shields.io/badge/License-MIT-green)
+![Platform](https://img.shields.io/badge/Platform-Linux-lightgrey)
+![Language](https://img.shields.io/badge/Python-3.10+-blue)
+![Status](https://img.shields.io/badge/Status-MVP_v0.1-orange)
 
 Lightweight Python wrapper that enforces security policies around AI / LLM prompts
 before they reach the model. Designed to prevent sensitive data leakage and risky
 prompt behaviour.
+
+---
+
 
 > Current Release: **v0.1 (MVP)**
 
