@@ -101,3 +101,4 @@ If you find this project useful, please star the repo — it really helps!
 Have an idea or found a bug?
 👉 https://github.com/RichardBarron27/redspecter-ai-firewall-proxy/issues
 
+Notice for Users: If you cloned this and found it useful, please consider starring the repo! Stars help with visibility and let me know which projects to maintain.
