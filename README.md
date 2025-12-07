@@ -101,5 +101,3 @@ If you find this project useful, please star the repo — it really helps!
 Have an idea or found a bug?
 👉 https://github.com/RichardBarron27/redspecter-ai-firewall-proxy/issues
 
-yaml
-Copy code
