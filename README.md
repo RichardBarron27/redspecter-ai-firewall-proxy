@@ -32,6 +32,63 @@ prompt behaviour.
 
 ```bash
 python -m examples.test_client
+
+🔌 Use with OpenAI (real backend example)
+from proxy.firewall import FirewallClient
+from openai import OpenAI
+
+# Your normal OpenAI config
+client = OpenAI(api_key="YOUR_API_KEY")
+
+# This is the backend the firewall will call if allowed
+def openai_backend(prompt: str, **kwargs):
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}]
+    )
+    return response.choices[0].message.content
+
+# Wrap the backend with the Firewall Proxy
+fw = FirewallClient(
+    backend=openai_backend,
+    policy_path="proxy/policies.yaml",  # optional override
+    strict=True,  # strict=True → deny prompts on violation
+)
+
+try:
+    result = fw.call("Write a short secure coding checklist.")
+    print("LLM Response:", result)
+except PermissionError as e:
+    print("🚫 Blocked by Firewall:", e)
+
+Results
+
+Safe prompts → ✔ allowed
+
+Sensitive prompts → ❌ blocked with clear policy reason
+
+All activity is logged without storing prompt contents
+
+Logs at:
+
+~/.redspecter_ai_firewall/logs/events.jsonl
+
+
+Example of a logged event:
+
+{
+  "timestamp": "2025-12-06T22:07:55Z",
+  "component": "ai_firewall_proxy",
+  "action": "deny",
+  "reason": "Matched deny terms: internal_ip",
+  "matches": {"deny": ["internal_ip"], "warn": []},
+  "prompt_hash": "a27af91c...",
+  "prompt_length": 67
+}
+
+
+⚠️ No raw prompts are stored — privacy-first by design.
+
 ## ⭐ Support & Contribute
 
 If you find this project useful, please **star the repo** — it really helps!
