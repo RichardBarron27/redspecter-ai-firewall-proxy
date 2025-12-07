@@ -32,3 +32,9 @@ prompt behaviour.
 
 ```bash
 python -m examples.test_client
+## ⭐ Support & Contribute
+
+If you find this project useful, please **star the repo** — it really helps!
+
+Found a bug or have an idea?  
+👉 Open an Issue here: https://github.com/RichardBarron27/redspecter-ai-firewall-proxy/issues
