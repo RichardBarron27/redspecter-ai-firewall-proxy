@@ -2,45 +2,53 @@
   <img src="https://raw.githubusercontent.com/RichardBarron27/red-specter-offensive-framework/main/assets/red-specter-logo.png" alt="Red Specter Logo" width="200">
 </p>
 
- # 🛡️ Red Specter – AI Firewall Proxy
+# 🛡️ Red Specter – AI Firewall Proxy
 
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Platform](https://img.shields.io/badge/Platform-Linux-lightgrey)
 ![Language](https://img.shields.io/badge/Python-3.10+-blue)
 ![Status](https://img.shields.io/badge/Status-MVP_v0.1-orange)
 ![Version](https://img.shields.io/github/v/release/RichardBarron27/redspecter-ai-firewall-proxy?label=Release)
-> Part of the **Red Specter Purple Team AI Defense Suite**
+
+> Part of the **Red Specter Purple Team AI Defense Suite**  
 > Offense-driven defense against AI-enabled threats.
 
 Lightweight Python wrapper that enforces security policies around AI / LLM prompts
-before they reach the model. Designed to prevent sensitive data leakage and risky
-prompt behaviour.
+*before* they reach the model — preventing sensitive data leakage and unsafe prompt behavior.
 
 ---
 
-
-> Current Release: **v0.1 (MVP)**
-
-## Features
+## ✨ Features
 - Policy-driven allow / warn / deny decisions
 - Detects sensitive terms in prompts
-- Blocks jailbreak-like instructions
-- Metadata-only logging (no prompt content stored)
+- Blocks jailbreak-style manipulation
+- Logs metadata only (no prompt contents stored)
 - Easy drop-in wrapper for any LLM backend
 
-## Quick Demo
+---
+
+## 🧪 Quick Demo (included)
 
 ```bash
 python -m examples.test_client
+Expected:
+
+✔ Safe prompt → accepted by backend
+
+❌ Risky prompt → blocked with reasons
+
+📝 Logged to: ~/.redspecter_ai_firewall/logs/events.jsonl
 
 🔌 Use with OpenAI (real backend example)
+python
+Copy code
 from proxy.firewall import FirewallClient
 from openai import OpenAI
 
-# Your normal OpenAI config
+# Your OpenAI configuration
 client = OpenAI(api_key="YOUR_API_KEY")
 
-# This is the backend the firewall will call if allowed
+# Backend function to call OpenAI
 def openai_backend(prompt: str, **kwargs):
     response = client.chat.completions.create(
         model="gpt-4o-mini",
@@ -48,11 +56,10 @@ def openai_backend(prompt: str, **kwargs):
     )
     return response.choices[0].message.content
 
-# Wrap the backend with the Firewall Proxy
+# Wrap backend with the Firewall Proxy
 fw = FirewallClient(
     backend=openai_backend,
-    policy_path="proxy/policies.yaml",  # optional override
-    strict=True,  # strict=True → deny prompts on violation
+    strict=True,
 )
 
 try:
@@ -60,22 +67,17 @@ try:
     print("LLM Response:", result)
 except PermissionError as e:
     print("🚫 Blocked by Firewall:", e)
-
 Results
+✔ Safe prompts → allowed
 
-Safe prompts → ✔ allowed
+❌ Sensitive prompts → blocked with clear reason
 
-Sensitive prompts → ❌ blocked with clear policy reason
+📝 All events logged with hashed prompt IDs
 
-All activity is logged without storing prompt contents
+Example log entry:
 
-Logs at:
-
-~/.redspecter_ai_firewall/logs/events.jsonl
-
-
-Example of a logged event:
-
+json
+Copy code
 {
   "timestamp": "2025-12-06T22:07:55Z",
   "component": "ai_firewall_proxy",
@@ -85,13 +87,19 @@ Example of a logged event:
   "prompt_hash": "a27af91c...",
   "prompt_length": 67
 }
+🔐 Privacy-first: no raw prompts are ever stored.
 
+🗺 Roadmap
+Version	Goal	Status
+v0.1	Agent MVP	✔ Released
+v0.2	Local Proxy Mode	🔄 In Design
+v0.3	SIEM Export + Fleet Policies	⏳ Planned
 
-⚠️ No raw prompts are stored — privacy-first by design.
+⭐ Support & Contribute
+If you find this project useful, please star the repo — it really helps!
 
-## ⭐ Support & Contribute
+Have an idea or found a bug?
+👉 https://github.com/RichardBarron27/redspecter-ai-firewall-proxy/issues
 
-If you find this project useful, please **star the repo** — it really helps!
-
-Found a bug or have an idea?  
-👉 Open an Issue here: https://github.com/RichardBarron27/redspecter-ai-firewall-proxy/issues
+yaml
+Copy code
